@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "Finger Gun Tabs",
+  "version": "0.1.0",
+  "description": "Point a finger gun at your webcam and shoot your open tabs closed. Everything runs on your computer.",
+  "permissions": ["tabs", "sessions", "favicon", "storage", "offscreen"],
+  "action": { "default_title": "Open the tab range (Alt+G)" },
+  "background": { "service_worker": "background.js" },
+  "commands": {
+    "open-range": {
+      "suggested_key": { "default": "Alt+G", "mac": "Alt+G" },
+      "description": "Open the tab shooting range"
+    }
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'"
+  },
+  "icons": { "16": "icons/16.png", "48": "icons/48.png", "128": "icons/128.png" }
+}

@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Finger Gun Tabs</title>
+    <link rel="icon" href="icons/48.png">
+    <link rel="stylesheet" href="gallery.css">
+  </head>
+  <body>
+    <header class="ui hud">
+      <div class="brand"><span class="brand-dot"></span>FINGER GUN TABS</div>
+      <div class="stats"><b id="remaining">0</b> tabs open <span class="sep">·</span> <b id="kills">0</b> shot</div>
+      <div class="actions">
+        <label class="toggle" title="Keeps the camera on in the background and opens this range whenever you make a finger gun">
+          <input type="checkbox" id="standby"> Raise-to-draw
+        </label>
+        <button id="undo" type="button">Undo <kbd>Z</kbd></button>
+        <button id="holster" type="button">Holster <kbd>Esc</kbd></button>
+      </div>
+    </header>
+
+    <main id="range" aria-label="Open tabs"></main>
+
+    <aside class="ui cam">
+      <div class="camwrap" id="camwrap">
+        <video id="video" autoplay playsinline muted></video>
+        <canvas id="skeleton" width="320" height="240"></canvas>
+      </div>
+      <select id="camera" aria-label="Camera" hidden></select>
+      <div id="status">Starting camera…</div>
+      <dl class="score">
+        <div><dt>Accuracy</dt><dd id="s-accuracy">–</dd></div>
+        <div><dt>Best streak</dt><dd id="s-streak">0</dd></div>
+        <div><dt>Time</dt><dd id="s-time">–</dd></div>
+      </dl>
+      <ol class="howto">
+        <li>Point your index finger, thumb up</li>
+        <li>The laser snaps to the nearest tab</li>
+        <li>Drop your thumb to shoot</li>
+      </ol>
+      <pre id="debug" hidden></pre>
+    </aside>
+
+    <div id="fx" aria-hidden="true"></div>
+    <div id="laser" aria-hidden="true"><i></i></div>
+    <div id="flash" aria-hidden="true"></div>
+    <div id="banner" aria-live="polite"></div>
+
+    <script type="module" src="gallery.js"></script>
+  </body>
+</html>

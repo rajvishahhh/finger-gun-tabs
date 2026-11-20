@@ -25,7 +25,9 @@ To update later, download the new ZIP, replace the folder, and click the reload 
 
 Yes, and you don't have to take my word for it. All the code is in this repo and it's small enough to read.
 
-- **No internet use.** The extension makes no network requests. There's no server, account, analytics or tracking.
+- **No internet use, enforced by Chrome.** The extension makes no network requests, and its security policy (in `manifest.json`) makes Chrome block any connection to the outside world, so even a bug or a tampered copy couldn't send your camera feed anywhere. There's no server, account, analytics or tracking.
+- **Websites can't reach it.** No website can see the camera feed or talk to the extension: it has no content scripts, no website access, and nothing exposed to web pages.
+- **You always know when the camera is on.** Your laptop's camera light comes on and Chrome shows a camera icon in the address bar. Close the range tab and the camera turns off, unless you've ticked **Raise-to-draw**, which keeps watching for a finger gun in the background (the camera light stays on so you can tell). It's off by default.
 - **The camera stays local.** Video is processed on your computer, frame by frame, and never saved or sent anywhere.
 - **No access to your pages.** It can't read or change what's on any website. The `tabs` permission only lets it see tab titles and URLs so it can draw and close them.
 - **Nothing to install or run.** There are no .exe or .dmg files. Chrome runs it inside its own sandbox like any other extension.

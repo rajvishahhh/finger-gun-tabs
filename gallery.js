@@ -44,6 +44,8 @@ const MOCK_TABS = [
 }));
 
 let selfTabId = null;
+let selfWindowId = null;
+let windowOnly = false; // "This window only": skip tabs in other windows
 const cards = new Map(); // tab id -> card element
 const badges = new Map(); // tab id -> { cls, text }
 const shotByMe = new Set();
@@ -51,8 +53,13 @@ let rects = []; // cached card positions for aim assist
 
 async function listTabs() {
   if (!ext) return MOCK_TABS.filter((t) => !shotByMe.has(t.id));
-  if (selfTabId === null) selfTabId = (await chrome.tabs.getCurrent())?.id ?? -1;
-  const tabs = await chrome.tabs.query({ windowType: 'normal' });
+  if (selfTabId === null) {
+    const self = await chrome.tabs.getCurrent();
+    selfTabId = self?.id ?? -1;
+    selfWindowId = self?.windowId ?? null;
+  }
+  const query = windowOnly && selfWindowId != null ? { windowId: selfWindowId } : { windowType: 'normal' };
+  const tabs = await chrome.tabs.query(query);
   return tabs.filter((t) => t.id !== selfTabId);
 }
 
@@ -821,7 +828,19 @@ if (ext) {
   standbyEl.closest('label').hidden = true;
 }
 
+const windowOnlyEl = $('window-only');
+async function loadWindowOnly() {
+  windowOnly = ext ? !!(await chrome.storage.local.get('windowOnly')).windowOnly : localStorage.getItem('windowOnly') === '1';
+  windowOnlyEl.checked = windowOnly;
+}
+windowOnlyEl.addEventListener('change', () => {
+  windowOnly = windowOnlyEl.checked;
+  if (ext) chrome.storage.local.set({ windowOnly });
+  else localStorage.setItem('windowOnly', windowOnly ? '1' : '0');
+  refresh();
+});
+
 // Test hook for automated checks; harmless in normal use.
 window.__range = { shoot, aim, undo, refresh, score };
 
-refresh().then(startCamera);
+loadWindowOnly().then(refresh).then(startCamera);
